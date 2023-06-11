@@ -6,40 +6,46 @@ hook OnPlayerConnect(playerid)
             vehicles = cache_num_rows()
         ;
 
-        for (new i; i < vehicles; i++)
+        if (vehicles)
         {
-            cache_get_value_name_int(i, "id", Player.Vehicle[playerid][i][@id]);
-            cache_get_value_name_int(i, "player_id", Player.Vehicle[playerid][i][@player_id]);
-            cache_get_value_name(i, "owner", Player.Vehicle[playerid][i][@player]);
-            cache_get_value_name_int(i, "model_id", Player.Vehicle[playerid][i][@model_id]);
-            cache_get_value_name_int(i, "price", Player.Vehicle[playerid][i][@price]);
-            cache_get_value_name_float(i, "x", Player.Vehicle[playerid][i][@pos][0]);
-            cache_get_value_name_float(i, "y", Player.Vehicle[playerid][i][@pos][1]);
-            cache_get_value_name_float(i, "z", Player.Vehicle[playerid][i][@pos][2]);
-            cache_get_value_name_float(i, "a", Player.Vehicle[playerid][i][@pos][3]);
-
-            Iter_Add(PlayerVehicle[playerid], i);
-
-            inline const ComponentFetched()
+            for (new i; i < vehicles; i++)
             {
-                new
-                    components = cache_num_rows()
-                ;
+                cache_get_value_name_int(i, "id", Player.Vehicle[playerid][i][@id]);
+                cache_get_value_name_int(i, "player_id", Player.Vehicle[playerid][i][@player_id]);
+                cache_get_value_name(i, "owner", Player.Vehicle[playerid][i][@player]);
+                cache_get_value_name_int(i, "model_id", Player.Vehicle[playerid][i][@model_id]);
+                cache_get_value_name_int(i, "price", Player.Vehicle[playerid][i][@price]);
+                cache_get_value_name_float(i, "x", Player.Vehicle[playerid][i][@pos][0]);
+                cache_get_value_name_float(i, "y", Player.Vehicle[playerid][i][@pos][1]);
+                cache_get_value_name_float(i, "z", Player.Vehicle[playerid][i][@pos][2]);
+                cache_get_value_name_float(i, "a", Player.Vehicle[playerid][i][@pos][3]);
 
-                for (new j; j < components; j++) {
-                    cache_get_value_name_int(j, "component_id", Player.Vehicle[playerid][i][@component_id][j]);
+                Iter_Add(PlayerVehicle[playerid], i);
+
+                inline const ComponentFetched()
+                {
+                    new
+                        components = cache_num_rows()
+                    ;
+
+                    if (components)
+                    {
+                        for (new j; j < components; j++) {
+                            cache_get_value_name_int(j, "component_id", Player.Vehicle[playerid][i][@component_id][j]);
+                        }
+                    }
                 }
-            }
 
-            MySQL_TQueryInline(db, using inline ComponentFetched, "\
-                SELECT \
-                    `component_id` \
-                FROM \
-                    `components` \
-                WHERE \
-                    `vehicle_id` = %i \
-                LIMIT 0, %i;", Player.Vehicle[playerid][i][@id], MAX_VEHICLE_COMPONENTS
-            );
+                MySQL_TQueryInline(db, using inline ComponentFetched, "\
+                    SELECT \
+                        `component_id` \
+                    FROM \
+                        `components` \
+                    WHERE \
+                        `vehicle_id` = %i \
+                    LIMIT 0, %i;", Player.Vehicle[playerid][i][@id], MAX_VEHICLE_COMPONENTS
+                );
+            }
         }
     }
 
