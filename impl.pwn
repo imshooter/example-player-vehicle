@@ -36,7 +36,7 @@ hook OnPlayerConnect(playerid)
                     }
                 }
 
-                MySQL_TQueryInline(db, using inline ComponentFetched, "\
+                MySQL_PQueryInline(db, using inline ComponentFetched, "\
                     SELECT \
                         `component_id` \
                     FROM \
