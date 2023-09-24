@@ -1,5 +1,5 @@
 hook OnPlayerConnect(playerid) {
-    inline const VehicleFetched() {
+    inline const FetchVehicle() {
         new 
             vehicles = cache_num_rows()
         ;
@@ -18,7 +18,7 @@ hook OnPlayerConnect(playerid) {
 
                 Iter_Add(PlayerVehicle[playerid], i);
 
-                inline const ComponentFetched() {
+                inline const FetchComponent() {
                     new
                         components = cache_num_rows()
                     ;
@@ -30,7 +30,7 @@ hook OnPlayerConnect(playerid) {
                     }
                 }
 
-                MySQL_PQueryInline(db, using inline ComponentFetched, "\
+                MySQL_PQueryInline(db, using inline FetchComponent, "\
                     SELECT \
                         `component_id` \
                     FROM \
@@ -43,7 +43,7 @@ hook OnPlayerConnect(playerid) {
         }
     }
 
-    MySQL_TQueryInline(db, using inline VehicleFetched, "\
+    MySQL_TQueryInline(db, using inline FetchVehicle, "\
         SELECT \
             `pv`.*, \
             `p`.`name` AS `owner` \
