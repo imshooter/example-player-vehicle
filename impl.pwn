@@ -1,15 +1,11 @@
-hook OnPlayerConnect(playerid)
-{
-    inline const VehicleFetched()
-    {
+hook OnPlayerConnect(playerid) {
+    inline const VehicleFetched() {
         new 
             vehicles = cache_num_rows()
         ;
 
-        if (vehicles)
-        {
-            for (new i; i < vehicles; i++)
-            {
+        if (vehicles) {
+            for (new i; i < vehicles; i++) {
                 cache_get_value_name_int(i, "id", Player.Vehicle[playerid][i][@id]);
                 cache_get_value_name_int(i, "player_id", Player.Vehicle[playerid][i][@player_id]);
                 cache_get_value_name(i, "owner", Player.Vehicle[playerid][i][@player]);
@@ -22,14 +18,12 @@ hook OnPlayerConnect(playerid)
 
                 Iter_Add(PlayerVehicle[playerid], i);
 
-                inline const ComponentFetched()
-                {
+                inline const ComponentFetched() {
                     new
                         components = cache_num_rows()
                     ;
 
-                    if (components)
-                    {
+                    if (components) {
                         for (new j; j < components; j++) {
                             cache_get_value_name_int(j, "component_id", Player.Vehicle[playerid][i][@component_id][j]);
                         }
