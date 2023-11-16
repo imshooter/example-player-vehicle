@@ -43,7 +43,7 @@ hook OnPlayerConnect(playerid) {
         }
     }
 
-    MySQL_TQueryInline(db, using inline FetchVehicle, "\
+    MySQL_PQueryInline(db, using inline FetchVehicle, "\
         SELECT \
             `pv`.*, \
             `p`.`name` AS `owner` \
