@@ -2,12 +2,12 @@ hook OnPlayerConnect(playerid) {
     inline const VehicleFetched() {
         new
             i,
-            j,
+            j = cache_num_rows(),
             k,
             l
         ;
 
-        for (j = cache_num_rows(); i < j; i++) {
+        for (; i < j; i++) {
             cache_get_value_name_int(i, "id", Player.Vehicle[playerid][i][@id]);
             cache_get_value_name_int(i, "player_id", Player.Vehicle[playerid][i][@player_id]);
             cache_get_value_name(i, "owner", Player.Vehicle[playerid][i][@player]);
@@ -23,7 +23,10 @@ hook OnPlayerConnect(playerid) {
             // Load Components
 
             inline const ComponentFetched() {
-                for (k = 0, l = cache_num_rows(); k < l; k++) {
+                k = 0;
+                l = cache_num_rows();
+
+                for (; k < l; k++) {
                     cache_get_value_name_int(k, "component_id", Player.Vehicle[playerid][i][@component_id][k]);
                 }
             }
