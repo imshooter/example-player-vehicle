@@ -1,7 +1,10 @@
-#if !defined MAX_OWNABLE_VEHICLES
-    #define MAX_OWNABLE_VEHICLES (10)
-#endif
+#include <YSI_Coding\y_hooks>
 
+/**
+ * # Header
+ */
+
+#define MAX_OWNABLE_VEHICLES (10)
 #define MAX_VEHICLE_MODELS (212)
 #define MAX_VEHICLE_MODEL_COMPONENTS (48)
 
@@ -14,10 +17,18 @@ new
 ;
 
 /**
+ * # External
+ */
+
+stock DBID:GetVehicleDatabaseID(vehicleid) {
+    return gVehicleDBID[vehicleid];
+}
+
+/**
  * # Calls
  */
 
-public OnPlayerConnect(playerid) {
+hook OnPlayerConnect(playerid) {
     inline const FetchVehicle() {
         new
             rows = cache_num_rows()
@@ -82,7 +93,7 @@ public OnPlayerConnect(playerid) {
     return 1;
 }
 
-public OnPlayerDisconnect(playerid, reason) {
+hook OnPlayerDisconnect(playerid, reason) {
     foreach (new vehicleid: OwnedVehicle<playerid>) {
         gVehicleDBID[vehicleid] = DBID:0;
         DestroyVehicle(vehicleid);
