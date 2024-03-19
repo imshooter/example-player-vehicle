@@ -4,10 +4,6 @@
  * # Header
  */
 
-#define MAX_OWNABLE_VEHICLES (10)
-#define MAX_VEHICLE_MODELS (212)
-#define MAX_VEHICLE_MODEL_COMPONENTS (48)
-
 static
     DBID:gVehicleDBID[MAX_VEHICLES]
 ;
@@ -58,7 +54,12 @@ hook OnPlayerConnect(playerid) {
                 cache_get_value_name_float(i, "z", Float:data[5]);
                 cache_get_value_name_float(i, "a", Float:data[6]);
 
-                vehicleid = CreateVehicle(data[0], Float:data[3], Float:data[4], Float:data[5], Float:data[6], data[1], data[2], -1);
+                vehicleid = CreateVehicle(
+                    data[0],
+                    Float:data[3], Float:data[4], Float:data[5], Float:data[6],
+                    data[1], data[2],
+                    -1
+                );
 
                 if (!IsValidVehicle(vehicleid)) {
                     @return 1;
